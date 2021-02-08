@@ -34,7 +34,6 @@ file.addEventListener('change', async function(){
     const blob = window.URL || window.webkitURL;
     if (blob) {
         const file = this.files[0];
-        audioFile.src = blob.createObjectURL(file);
         filename.innerText = file.name;
         let res;
 
@@ -53,7 +52,6 @@ file.addEventListener('change', async function(){
         }
         finally {
             if (res && res.status === 200) {
-                console.log('Success');
                 const data = res.data.results[0].alternatives[0];
                 for (let i=0; i<data.timestamps.length; i++) {
                     const dataSpan = document.createElement('span');
@@ -65,6 +63,7 @@ file.addEventListener('change', async function(){
                 }
                 spanSpeech = document.querySelectorAll('.span_speech');
                 audioFile.style.display = 'block';
+                audioFile.src = blob.createObjectURL(file);
             }
             else
                 alert('Error: Unable to process file!');

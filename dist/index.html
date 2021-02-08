@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="icon.png" type="./image/png" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Speech to text extractor</title>
+</head>
+<body>
+    <h2>Speech to text extractor</h2>
+    <div id="upload_btn_wrapper">
+        <button id="btn_file"><img id="img_upload" src="./upload.png" />Upload Audio File</button>
+        <input type="file" id="file" accept=".alaw, .au, .snd, .flac, .l16, .mp3, .mpga, .mp2, .m2a, .m3a, .mp2a, .mulaw, .ogg, .oga, .spx, .wav, .webm, .weba" />
+        <h4>No file selected.</h4>
+    </div>
+    <div id="spinner"></div>
+    <audio id="audio_file" controls></audio>
+    <div id="div_speech_res"></div>
+    <script type="module" src="./main.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,300);
+body {
+    margin: 0 auto;
+    text-align: center;
+    background-color: #282c34;
+}
+
+h2 {
+    font-family: "Lato", sans-serif;
+    text-transform: uppercase;
+    color: azure;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    margin-bottom: 40px;
+}
+
+h4 {
+    color: palegoldenrod;
+    font-family: "Lato", sans-serif;
+}
+
+@keyframes spinner {
+    0% {
+        transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    }
+    100% {
+        transform: translate3d(-50%, -50%, 0) rotate(360deg);
+    }
+}
+
+#spinner {
+    position: absolute;
+    top: 270px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+#spinner::before {
+    animation: 1.5s linear infinite spinner;
+    animation-play-state: inherit;
+    border: solid 5px #cfd0d1;
+    border-bottom-color: #1c87c9;
+    border-radius: 50%;
+    content: "";
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform;
+}
+
+#div_speech_res {
+    width: 80%;
+    margin: 0 auto;
+    overflow-wrap: break-word;
+}
+
+.span_speech {
+    margin-left: 3px;
+    margin-right: 3px;
+    letter-spacing: 1px;
+    font-size: 120%;
+    transition: background-color 0.2s ease;
+    font-family: "Lato", sans-serif;
+    color: white;
+    padding: 2px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.currentText {
+    background-color: #41793c;
+}
+
+#audio_file {
+    display: none;
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 5px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+#upload_btn_wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+#btn_file {
+    border: 2px solid #678c4d;
+    color: #4d4d4d;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 100%;
+    font-weight: bold;
+    font-family: "Lato", sans-serif;
+    background-color: lightyellow;
+}
+
+#img_upload {
+    height: 50px;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 1px;
+}
+
+#btn_file:disabled {
+    background-color: silver;
+}
+
+#upload_btn_wrapper input[type=file] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    opacity: 0;
+    font-size: 52px;
+}
+
+#upload_btn_wrapper input[type=file]:disabled {
+    cursor: not-allowed;
+}

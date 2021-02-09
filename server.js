@@ -3,11 +3,11 @@ const express = require('express');
 multer = require('multer'),
 path = require('path'),
 axios = require('axios'),
+UPLOAD_FOLDER = './tmp';
+fs = require('fs');
 app = express(),
 PORT = process.env.PORT || 3000;
 
-//app.use(express.urlencoded({ extended: false }));
-//app.use(express.json());
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
@@ -68,28 +68,29 @@ const getFileType = function(extension) {
     return fileType;
 };
 
+if (!fs.existsSync(UPLOAD_FOLDER))
+    fs.mkdirSync(UPLOAD_FOLDER);
 
 // configure multer
-// const storage = multer.diskStorage({
-//     destination: function(req, file, cb) {
-//         cb(null, `./${FILE_PATH}`);
-//     },
-//     filename: function (req, file, cb) {
-//         cb(null , file.originalname);
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, UPLOAD_FOLDER);
+    },
+    filename: function (req, file, cb) {
+        cb(null , file.originalname);
+    }
+});
+// const memoryStorage = multer.memoryStorage({
+//     destination: function(req, file, callback) {
+//         callback(null, "");
 //     }
 // });
 
-const memoryStorage = multer.memoryStorage({
-    destination: function(req, file, callback) {
-        callback(null, "");
-    }
-});
-
 const upload = multer({
-    storage: memoryStorage,
+    storage: storage,
     limits: {
-        files: 1, // allow up to 5 files per request,
-        fieldSize: 5 * 1024 * 1024 // 5 MB (max file size)
+        files: 1,
+        fieldSize: 10 * 1024 * 1024
     },
     fileFilter: (req, file, cb) => {
         if (!file.originalname.match(/\.(alaw|au|snd|flac|l16|mp3|mpga|mp2|m2a|m3a|mp2a|mulaw|ogg|oga|spx|wav|webm|weba)$/))
@@ -101,11 +102,14 @@ const upload = multer({
 
 app.post('/speech', upload.single('file'), async(req, res) => {
     try {
-        const file = req.file;
+        const filename = req.file.originalname;
+        const file = fs.readFileSync(`${UPLOAD_FOLDER}/${filename}`);
+        fs.unlinkSync(`${UPLOAD_FOLDER}/${filename}`);
+
         if (!file)
             throw new Error('Invalid File!');
 
-        const extension = file.originalname.split('.').pop();
+        const extension = filename.split('.').pop();
         let fileType = getFileType(extension);
         if (!fileType)
             throw new Error('Unsupported File-Type!');
@@ -122,7 +126,6 @@ app.post('/speech', upload.single('file'), async(req, res) => {
         res.send(r.data.results[0].alternatives[0]);
     }
     catch(e) {
-        console.log(e);
         res.status(500).json({
             status: false,
             error: e.message

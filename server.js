@@ -9,7 +9,6 @@ app = express(),
 PORT = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, 'dist')));
-app.use(express.static(path.join(__dirname, 'node_modules')));
 
 const getFileType = function(extension) {
     let fileType;
@@ -71,7 +70,8 @@ const getFileType = function(extension) {
 if (!fs.existsSync(UPLOAD_FOLDER))
     fs.mkdirSync(UPLOAD_FOLDER);
 
-// configure multer
+// CONFIGURE FOR MULTER
+//
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, UPLOAD_FOLDER);
@@ -85,6 +85,8 @@ const storage = multer.diskStorage({
 //         callback(null, "");
 //     }
 // });
+//
+// END OF CONFIGURE FOR MULTER
 
 const upload = multer({
     storage: storage,

@@ -1,4 +1,4 @@
-# Speech-to-text-extractor
+# Speech to text extractor
 
 Upload your audio file and this online tool will extract the speech within and highlight it for you while you playing the audio.
 
